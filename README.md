@@ -1,109 +1,242 @@
-# The Coffee Spot
-![New Collection With Laptop Mockup Instagram Post](https://github.com/SmitParekh84/Images/blob/main/coffee-shop/New%20Collection%20With%20Laptop%20Mockup%20Instagram%20Post.png?raw=true)
+# ☕ BrewCraft
 
-Welcome to **The Coffee Spot** - a cozy and inviting coffee shop website where users can browse the menu, learn about services, and place orders online. This project is built using PHP, HTML, CSS, and JavaScript.
+BrewCraft is a modern multi-tenant coffee shop management platform built using **PHP** and **MySQL**.
+It allows local café owners to create and manage their own customizable online coffee storefronts with product management, order handling, analytics dashboards, and customer ordering features.
 
-## Table of Contents
+---
 
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Database Setup](#database-setup)
-- [Contributing](#contributing)
-- [License](#license)
+# ✨ Features
 
-## Features
+## 👤 Customer Features
 
-- **User Authentication**: Login and registration system with session handling.
-- **Dark Mode**: Option for users to switch to dark mode.
-- **Responsive Design**: Fully responsive layout using Bootstrap.
-- **Dynamic Content**: Display dynamic content based on user sessions.
-- **SweetAlert Integration**: Interactive alerts and notifications using SweetAlert.
-- **Online Ordering**: Users can view the menu and place orders online.
+* User Registration & Login
+* Browse Coffee Shops
+* Browse Products by Categories
+* Add to Cart
+* Update Cart Quantity
+* Place Orders
+* View Order History
+* Responsive Shopping Experience
 
-## Installation
+---
 
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/your-username/the-coffee-spot.git
-   ```
+## 🏪 Shop Owner Features
 
-2. **Navigate to the Project Directory**:
-   ```bash
-   cd the-coffee-spot
-   ```
+* Create & Manage Coffee Shop
+* Customize Storefront Branding
 
-3. **Set Up the Environment**:
-   - Ensure you have a local server (e.g., XAMPP, WAMP, or MAMP) installed.
-   - Place the project files in the server's root directory (e.g., `htdocs` for XAMPP).
+  * Shop Name
+  * Logo
+  * Banner
+  * About Section
+  * Theme Colors
+* Product Management (CRUD)
+* Category Management
+* Order Management Dashboard
+* Customer Data Management
+* Revenue & Order Analytics
 
-4. **Start the Local Server**:
-   - Start Apache and MySQL services using your local server control panel.
+---
 
-5. **Database Setup**:
-   - Execute the following SQL queries in your database management system to set up the necessary tables:
+## 🛡 Super Admin Features
 
+* Manage All Shops
+* View Platform Statistics
+* Manage Users
+* Delete/Ban Shops
+* Monitor Orders & Revenue
 
-   ```sql
-   -- Create the 'customers' table
-   CREATE TABLE customers (
-       customer_id INT AUTO_INCREMENT PRIMARY KEY,
-       name VARCHAR(100) NOT NULL,
-       email VARCHAR(100) NOT NULL,
-       phone VARCHAR(20),
-       address VARCHAR(255),
-       password VARCHAR(255) NOT NULL
-   );
+---
 
-   -- Create the 'menu' table
-   CREATE TABLE menu (
-       item_id INT AUTO_INCREMENT PRIMARY KEY,
-       item_name VARCHAR(100) NOT NULL,
-       description TEXT,
-       price DECIMAL(10, 2) NOT NULL,
-       category VARCHAR(50),
-       image_url VARCHAR(255)
-   );
+# 🎨 UI/UX Highlights
 
-   -- Create the 'orders' table
-   CREATE TABLE orders (
-       order_id INT AUTO_INCREMENT PRIMARY KEY,
-       customer_id INT NOT NULL,
-       order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-       quantity INT NOT NULL,
-       item_name_quantity VARCHAR(255) NOT NULL,
-       total_price DECIMAL(10, 2) NOT NULL,
-       FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
-   );
-   ```
+* Premium Coffee-Themed Design
+* Modern Dashboard Layout
+* Responsive UI
+* Elegant Product Cards
+* Smooth Cart Drawer
+* Clean Admin Panels
+* Warm Coffee Color Palette
+* SaaS-style User Experience
 
-## Usage
+---
 
-1. **Access the Website**:
-   - Open your web browser and navigate to `http://localhost/the-coffee-spot`.
+# 🛠 Tech Stack
 
-2. **Browse the Menu**:
-   - Click on the "Menu" link in the navigation bar to view available items.
+## Frontend
 
-3. **Place an Order**:
-   - Navigate to the "Order Now" page to place your order online.
+* HTML5
+* CSS3
+* JavaScript
+* Bootstrap / TailwindCSS
 
-4. **User Authentication**:
-   - Register a new account or log in with existing credentials to access personalized features.
+## Backend
 
-## Contributing
+* PHP (OOP + MVC Architecture)
 
-Contributions are welcome! Please follow these steps:
+## Database
 
-1. Fork the repository.
-2. Create a new branch: `git checkout -b feature/your-feature-name`.
-3. Make your changes and commit them: `git commit -m 'Add some feature'`.
-4. Push to the branch: `git push origin feature/your-feature-name`.
-5. Submit a pull request.
+* MySQL
 
-## License
+---
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+# 📂 Project Structure
+
+```bash
+brewcraft/
+│
+├── app/
+│   ├── controllers/
+│   ├── models/
+│   ├── views/
+│
+├── config/
+├── database/
+├── public/
+├── uploads/
+├── routes/
+└── README.md
 ```
 
-This README now includes SQL queries to create the `customers`, `menu`, and `orders` tables under the "Database Setup" section. You can copy and paste these queries into your database management system to set up the necessary tables for the project. Adjust the queries as needed based on your specific database requirements.
+---
+
+# 🗄 Database Tables
+
+The project uses relational MySQL tables:
+
+* users
+* shops
+* categories
+* products
+* orders
+* order_items
+* reviews
+
+---
+
+# 🔐 Authentication & Security
+
+* Role-Based Authentication
+* Session Management
+* Password Hashing using `password_hash()`
+* Prepared Statements using PDO
+* Protected Admin Routes
+
+---
+
+# 🚀 Installation
+
+## 1. Clone Repository
+
+```bash
+git clone https://github.com/your-username/brewcraft.git
+```
+
+---
+
+## 2. Move Project to XAMPP
+
+Move the project folder to:
+
+```bash
+xampp/htdocs/
+```
+
+---
+
+## 3. Import Database
+
+* Open phpMyAdmin
+* Create database:
+
+```sql
+brewcraft_db
+```
+
+* Import the SQL file from:
+
+```bash
+database/brewcraft_db.sql
+```
+
+---
+
+## 4. Configure Database
+
+Update database credentials inside:
+
+```bash
+config/database.php
+```
+
+Example:
+
+```php
+<?php
+
+$host = "localhost";
+$dbname = "brewcraft_db";
+$username = "root";
+$password = "";
+```
+
+---
+
+## 5. Run Project
+
+Start:
+
+* Apache
+* MySQL
+
+Then open:
+
+```bash
+http://localhost/brewcraft
+```
+
+---
+
+# 📸 Screenshots
+
+## Customer Storefront
+
+* Product Listing
+* Cart Drawer
+* Coffee Categories
+
+## Admin Dashboard
+
+* Revenue Analytics
+* Product Management
+* Orders Panel
+
+---
+
+# 🎯 Future Improvements
+
+* Online Payments (Razorpay / Stripe)
+* Email Notifications
+* Live Order Tracking
+* Table Reservation System
+* Multi-language Support
+* Dark Mode
+* REST API Support
+
+---
+
+# 💡 Project Goal
+
+BrewCraft aims to provide local coffee shops with a professional digital storefront and management system while delivering customers a smooth online coffee ordering experience.
+
+---
+
+# 👨‍💻 Author
+
+Developed by Jatin Joshi
+
+---
+
+# 📄 License
+
+This project is for educational and portfolio purposes.
