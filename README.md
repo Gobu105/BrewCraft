@@ -121,6 +121,10 @@ C:/xampp/htdocs/BrewCraft
   ```bash
   database/pune_dummy_data.sql
   ```
+* *(Optional)* To populate the platform with sample shops, products, and images, import the dummy data script:
+  ```bash
+  database/brecraft_final.sql
+  ```
 
 ## 4. Connect Database
 Update database credentials inside `config/database.php`:
