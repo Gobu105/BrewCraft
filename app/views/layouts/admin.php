@@ -25,10 +25,10 @@
             ?>
             <a href="<?php echo BASE_URL; ?>/" class="nav-link text-dark"><i class="fa fa-home fa-fw me-2"></i> Home</a>
             <a href="<?php echo BASE_URL; ?>/owner" class="nav-link text-dark <?php echo ($uri == '/owner' || $uri == '/admin/dashboard') ? 'active' : ''; ?>"><i class="fa fa-chart-line fa-fw me-2"></i> Dashboard</a>
-            <a href="<?php echo BASE_URL; ?>/owner/orders" class="nav-link text-dark <?php echo strpos($uri, 'orders') !== false ? 'active' : ''; ?>"><i class="fa fa-shopping-cart fa-fw me-2"></i> Orders</a>
-            <a href="<?php echo BASE_URL; ?>/owner/products" class="nav-link text-dark <?php echo strpos($uri, 'products') !== false ? 'active' : ''; ?>"><i class="fa fa-box fa-fw me-2"></i> Products</a>
+            <a href="<?php echo BASE_URL; ?>/owner/orders" class="nav-link text-dark <?php echo strpos($uri, 'orders') !== false ? 'active' : ''; ?>"><i class="fa fa-shopping-bag fa-fw me-2"></i> Orders</a>
+            <a href="<?php echo BASE_URL; ?>/owner/products" class="nav-link text-dark <?php echo strpos($uri, 'products') !== false ? 'active' : ''; ?>"><i class="fa fa-coffee fa-fw me-2"></i> Products</a>
             <a href="<?php echo BASE_URL; ?>/owner/categories" class="nav-link text-dark <?php echo strpos($uri, 'categories') !== false ? 'active' : ''; ?>"><i class="fa fa-tags fa-fw me-2"></i> Categories</a>
-            <a href="<?php echo BASE_URL; ?>/owner/settings" class="nav-link text-dark <?php echo strpos($uri, 'settings') !== false ? 'active' : ''; ?>"><i class="fa fa-cog fa-fw me-2"></i> Shop Settings</a>
+            <a href="<?php echo BASE_URL; ?>/owner/settings" class="nav-link text-dark <?php echo strpos($uri, 'settings') !== false ? 'active' : ''; ?>"><i class="fa fa-cog fa-fw me-2"></i> Settings</a>
         </div>
         <div class="p-4 mt-auto border-top">
             <a href="<?php echo BASE_URL; ?>/logout" class="text-danger text-decoration-none fw-medium"><i class="fa fa-sign-out-alt fa-fw me-2"></i> Sign Out</a>

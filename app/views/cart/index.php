@@ -38,7 +38,17 @@
             <a href="<?php echo BASE_URL; ?>/login" class="btn w-100 rounded-3 py-3 fw-bold shadow-sm text-white" style="background-color: #4a3320;">Login to Checkout</a>
         <?php else: ?>
             <form action="<?php echo BASE_URL; ?>/checkout" method="POST">
-                <button type="submit" class="btn w-100 rounded-3 py-3 fw-bold shadow-sm text-white" style="background-color: #4a3320;">Checkout</button>
+                <div class="mb-3">
+                    <label class="form-label fw-bold text-dark">Delivery Address <span class="text-danger">*</span></label>
+                    <textarea name="delivery_address" class="form-control bg-white" rows="2" placeholder="Enter your full delivery address" required><?php echo htmlspecialchars($user->address ?? ''); ?></textarea>
+                </div>
+                <div class="form-check mb-4">
+                    <input class="form-check-input" type="checkbox" name="save_address" id="saveAddress" value="1" <?php if(empty($user->address)) echo 'checked'; ?>>
+                    <label class="form-check-label text-muted small" for="saveAddress">
+                        Save this as my default address
+                    </label>
+                </div>
+                <button type="submit" class="btn w-100 rounded-3 py-3 fw-bold shadow-sm text-white" style="background-color: #4a3320;">Place Order</button>
             </form>
         <?php endif; ?>
     </div>

@@ -23,7 +23,11 @@ class AuthController {
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['success_login'] = true;
                 
-                header("Location: " . BASE_URL . "/");
+                if ($user['role'] === 'super_admin' || $user['role'] === 'admin') {
+                    header("Location: " . BASE_URL . "/admin");
+                } else {
+                    header("Location: " . BASE_URL . "/");
+                }
                 exit();
             } else {
                 $_SESSION['error'] = "Invalid email or password.";

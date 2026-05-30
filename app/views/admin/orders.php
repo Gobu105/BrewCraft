@@ -21,7 +21,7 @@
                     <td class="fw-bold">#<?php echo str_pad($o['id'], 5, '0', STR_PAD_LEFT); ?></td>
                     <td>
                         <div class="fw-medium"><?php echo htmlspecialchars($o['customer_name']); ?></div>
-                        <div class="text-muted small"><i class="fa fa-map-marker-alt me-1"></i><?php echo htmlspecialchars($o['customer_address'] ?? 'No Address provided'); ?></div>
+                        <div class="text-muted small"><i class="fa fa-map-marker-alt me-1"></i><?php echo htmlspecialchars($o['delivery_address'] ?: ($o['customer_address'] ?? 'No Address provided')); ?></div>
                     </td>
                     <td class="fw-bold text-dark">₹<?php echo number_format($o['total_price'], 2); ?></td>
                     <td>
@@ -37,7 +37,7 @@
                         </span>
                     </td>
                     <td class="text-end">
-                        <form method="POST" action="<?php echo BASE_URL; ?>/admin/orders" class="d-inline-flex gap-2">
+                        <form method="POST" action="<?php echo BASE_URL; ?>/owner/orders" class="d-inline-flex gap-2">
                             <input type="hidden" name="order_id" value="<?php echo $o['id']; ?>">
                             <select name="status" class="form-select form-select-sm" style="width: 130px;">
                                 <option value="pending" <?php if($o['status']=='pending') echo 'selected'; ?>>Pending</option>

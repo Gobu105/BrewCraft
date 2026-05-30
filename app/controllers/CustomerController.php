@@ -32,8 +32,28 @@ class CustomerController {
     public function settings() {
         $this->checkAuth();
         
+        $db = (new Database())->getConnection();
+        
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = $_POST['name'] ?? '';
+            $phone = $_POST['phone'] ?? '';
+            $address = $_POST['address'] ?? '';
+            
+            $stmt = $db->prepare("UPDATE users SET name = ?, phone = ?, address = ? WHERE id = ?");
+            $stmt->execute([$name, $phone, $address, $_SESSION['user_id']]);
+            
+            $_SESSION['name'] = $name;
+            $_SESSION['success_msg'] = "Profile updated successfully!";
+            header("Location: " . BASE_URL . "/customer/settings");
+            exit;
+        }
+        
+        $stmt = $db->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt->execute([$_SESSION['user_id']]);
+        $user = $stmt->fetch(PDO::FETCH_OBJ);
+        
         ob_start();
-        echo "<div class='p-5'><h1 class='fw-bold text-primary mb-2' style='font-family: Playfair Display, serif;'>Account Settings</h1><p class='text-muted fs-5'>Manage your profile</p></div>";
+        require_once __DIR__ . '/../views/customer/settings.php';
         $content = ob_get_clean();
         
         require_once __DIR__ . '/../views/layouts/customer.php';

@@ -2,6 +2,13 @@
 
 class CartController {
     public function index() {
+        $user = null;
+        if(isset($_SESSION['user_id'])) {
+            $db = (new Database())->getConnection();
+            $stmt = $db->prepare("SELECT * FROM users WHERE id = ?");
+            $stmt->execute([$_SESSION['user_id']]);
+            $user = $stmt->fetch(PDO::FETCH_OBJ);
+        }
         require_once __DIR__ . '/../views/cart/index.php';
     }
     
@@ -72,8 +79,16 @@ class CartController {
                 $total += $item['product']['price'] * $item['quantity'];
             }
             
-            $stmt = $db->prepare("INSERT INTO orders (customer_id, shop_id, total_price, status) VALUES (?, ?, ?, 'pending')");
-            $stmt->execute([$_SESSION['user_id'], $shop_id, $total]);
+            $delivery_address = $_POST['delivery_address'] ?? '';
+            $save_address = isset($_POST['save_address']) ? 1 : 0;
+            
+            if ($save_address && !empty($delivery_address)) {
+                $stmt = $db->prepare("UPDATE users SET address = ? WHERE id = ?");
+                $stmt->execute([$delivery_address, $_SESSION['user_id']]);
+            }
+            
+            $stmt = $db->prepare("INSERT INTO orders (customer_id, shop_id, total_price, status, delivery_address) VALUES (?, ?, ?, 'pending', ?)");
+            $stmt->execute([$_SESSION['user_id'], $shop_id, $total, $delivery_address]);
             $order_id = $db->lastInsertId();
             
             foreach($_SESSION['cart_items'] as $item) {

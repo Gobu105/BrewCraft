@@ -120,7 +120,7 @@ class ShopAdminController {
                 $stmt = $db->prepare("INSERT INTO products (shop_id, category_id, name, price, image) VALUES (?, ?, ?, ?, ?)");
                 $stmt->execute([$shop_id, $cat_id, $name, $price, $image]);
             }
-            header("Location: " . BASE_URL . "/admin/products");
+            header("Location: " . BASE_URL . "/owner/products");
             exit;
         }
         
@@ -201,7 +201,7 @@ class ShopAdminController {
             $status = $_POST['status'];
             $stmt = $db->prepare("UPDATE orders SET status = ? WHERE id = ? AND shop_id = ?");
             $stmt->execute([$status, $order_id, $shop_id]);
-            header("Location: " . BASE_URL . "/admin/orders");
+            header("Location: " . BASE_URL . "/owner/orders");
             exit;
         }
         
