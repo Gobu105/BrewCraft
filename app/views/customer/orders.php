@@ -22,7 +22,7 @@
                     <td class="py-3 ps-4 text-muted">#<?php echo htmlspecialchars($o['id']); ?></td>
                     <td class="py-3 text-dark fw-medium"><?php echo htmlspecialchars($o['shop']); ?></td>
                     <td class="py-3 text-muted"><?php echo htmlspecialchars($o['date']); ?></td>
-                    <td class="py-3 text-dark fw-bold">$<?php echo number_format($o['total'], 2); ?></td>
+                    <td class="py-3 text-dark fw-bold">₹<?php echo number_format($o['total'], 2); ?></td>
                     <td class="py-3">
                         <?php 
                             if($o['status'] == 'Completed') $badgeClass = 'bg-success text-success border-success';

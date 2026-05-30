@@ -26,7 +26,10 @@
                         <span class="badge text-success bg-success bg-opacity-10 px-2 py-1 border border-success" style="border-radius: 4px;"><?php echo htmlspecialchars($s['status']); ?></span>
                     </td>
                     <td class="py-3 pe-4 text-end">
-                        <button class="btn btn-sm btn-danger rounded text-white px-3 fw-bold" style="background-color: #ef4444; border-color: #ef4444;">Ban</button>
+                        <form method="POST" action="<?php echo BASE_URL; ?>/admin/shops/ban" class="d-inline" onsubmit="return confirm('Are you sure you want to ban and delete this shop?');">
+                            <input type="hidden" name="shop_id" value="<?php echo $s['id']; ?>">
+                            <button type="submit" class="btn btn-sm btn-danger rounded text-white px-3 fw-bold" style="background-color: #ef4444; border-color: #ef4444;">Ban</button>
+                        </form>
                     </td>
                 </tr>
                 <?php endforeach; ?>

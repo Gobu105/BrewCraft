@@ -50,6 +50,16 @@ class ShopAdminController {
         $stats['orders'] = $res['cnt'] ?? 0;
         $stats['revenue'] = $res['rev'] ?? 0;
         
+        $stmt = $db->prepare("SELECT COUNT(DISTINCT customer_id) as cnt FROM orders WHERE shop_id = :shop_id");
+        $stmt->bindParam(':shop_id', $shop_id);
+        $stmt->execute();
+        $stats['customers'] = $stmt->fetch(PDO::FETCH_ASSOC)['cnt'] ?? 0;
+        
+        $stmt = $db->prepare("SELECT COUNT(*) as cnt FROM orders WHERE shop_id = :shop_id AND status = 'pending'");
+        $stmt->bindParam(':shop_id', $shop_id);
+        $stmt->execute();
+        $stats['pending'] = $stmt->fetch(PDO::FETCH_ASSOC)['cnt'] ?? 0;
+        
         ob_start();
         require_once __DIR__ . '/../views/admin/dashboard.php';
         $content = ob_get_clean();
@@ -69,7 +79,7 @@ class ShopAdminController {
                 $stmt = $db->prepare("INSERT INTO categories (shop_id, name) VALUES (?, ?)");
                 $stmt->execute([$shop_id, $name]);
             }
-            header("Location: " . BASE_URL . "/admin/categories");
+            header("Location: " . BASE_URL . "/owner/categories");
             exit;
         }
         
@@ -96,9 +106,19 @@ class ShopAdminController {
             $name = $_POST['name'] ?? '';
             $price = $_POST['price'] ?? 0;
             $cat_id = $_POST['category_id'] ?? null;
+            $image = 'default_product.jpg';
+            
+            if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+                $upload_dir = __DIR__ . '/../../public/uploads/products/';
+                if(!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
+                $ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+                $image = 'product_' . uniqid() . '.' . $ext;
+                move_uploaded_file($_FILES['image']['tmp_name'], $upload_dir . $image);
+            }
+
             if ($name) {
-                $stmt = $db->prepare("INSERT INTO products (shop_id, category_id, name, price) VALUES (?, ?, ?, ?)");
-                $stmt->execute([$shop_id, $cat_id, $name, $price]);
+                $stmt = $db->prepare("INSERT INTO products (shop_id, category_id, name, price, image) VALUES (?, ?, ?, ?, ?)");
+                $stmt->execute([$shop_id, $cat_id, $name, $price, $image]);
             }
             header("Location: " . BASE_URL . "/admin/products");
             exit;
@@ -112,6 +132,63 @@ class ShopAdminController {
         require_once __DIR__ . '/../views/admin/products.php';
         $content = ob_get_clean();
         require_once __DIR__ . '/../views/layouts/admin.php';
+    }
+
+    public function deleteProduct() {
+        $this->checkAuth();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
+            $db = (new Database())->getConnection();
+            $shop_id = $this->getShopId($db);
+            $stmt = $db->prepare("DELETE FROM products WHERE id = ? AND shop_id = ?");
+            $stmt->execute([$_POST['product_id'], $shop_id]);
+        }
+        header("Location: " . BASE_URL . "/owner/products");
+        exit;
+    }
+
+    public function editProduct() {
+        $this->checkAuth();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
+            $db = (new Database())->getConnection();
+            $shop_id = $this->getShopId($db);
+            
+            $name = $_POST['name'] ?? '';
+            $price = $_POST['price'] ?? 0;
+            $cat_id = $_POST['category_id'] ?? null;
+            $product_id = $_POST['product_id'];
+            
+            $updateQuery = "UPDATE products SET name = ?, price = ?, category_id = ? WHERE id = ? AND shop_id = ?";
+            $params = [$name, $price, $cat_id, $product_id, $shop_id];
+            
+            if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+                $upload_dir = __DIR__ . '/../../public/uploads/products/';
+                if(!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
+                $ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+                $image = 'product_' . uniqid() . '.' . $ext;
+                move_uploaded_file($_FILES['image']['tmp_name'], $upload_dir . $image);
+                
+                $updateQuery = "UPDATE products SET name = ?, price = ?, category_id = ?, image = ? WHERE id = ? AND shop_id = ?";
+                $params = [$name, $price, $cat_id, $image, $product_id, $shop_id];
+            }
+            
+            $stmt = $db->prepare($updateQuery);
+            $stmt->execute($params);
+        }
+        header("Location: " . BASE_URL . "/owner/products");
+        exit;
+    }
+
+    public function toggleStock() {
+        $this->checkAuth();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
+            $db = (new Database())->getConnection();
+            $shop_id = $this->getShopId($db);
+            $stock = isset($_POST['in_stock']) ? 1 : 0;
+            $stmt = $db->prepare("UPDATE products SET in_stock = ? WHERE id = ? AND shop_id = ?");
+            $stmt->execute([$stock, $_POST['product_id'], $shop_id]);
+        }
+        header("Location: " . BASE_URL . "/owner/products");
+        exit;
     }
 
     public function orders() {
@@ -128,7 +205,7 @@ class ShopAdminController {
             exit;
         }
         
-        $stmt = $db->prepare("SELECT o.*, u.name as customer_name FROM orders o JOIN users u ON o.customer_id = u.id WHERE o.shop_id = ? ORDER BY o.created_at DESC");
+        $stmt = $db->prepare("SELECT o.*, u.name as customer_name, u.address as customer_address FROM orders o JOIN users u ON o.customer_id = u.id WHERE o.shop_id = ? ORDER BY o.created_at DESC");
         $stmt->execute([$shop_id]);
         $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
         

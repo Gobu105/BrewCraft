@@ -45,7 +45,7 @@
                         <span class="text-muted small fw-medium">Platform GMV</span>
                         <i class="fa fa-dollar-sign text-muted"></i>
                     </div>
-                    <h2 class="fw-bold text-dark mb-1">$<?php echo number_format($stats['gmv'], 2); ?></h2>
+                    <h2 class="fw-bold text-dark mb-1">₹<?php echo number_format($stats['gmv'], 2); ?></h2>
                 </div>
             </div>
         </div>

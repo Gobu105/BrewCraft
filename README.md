@@ -1,82 +1,65 @@
 # ☕ BrewCraft
 
-BrewCraft is a modern multi-tenant coffee shop management platform built using **PHP** and **MySQL**.
-It allows local café owners to create and manage their own customizable online coffee storefronts with product management, order handling, analytics dashboards, and customer ordering features.
+BrewCraft is a modern, responsive multi-tenant coffee shop management platform built using **PHP** and **MySQL**.
+It empowers local café owners to create and manage their own customizable online coffee storefronts with dynamic product management, comprehensive order handling, detailed analytics dashboards, and seamless customer ordering features.
 
 ---
 
-# ✨ Features
+# ✨ Core Features
 
-## 👤 Customer Features
-
-* User Registration & Login
-* Browse Coffee Shops
-* Browse Products by Categories
-* Add to Cart
-* Update Cart Quantity
-* Place Orders
-* View Order History
-* Responsive Shopping Experience
+## 👤 Customer Experience
+* **User Registration & Secure Login**: Role-based authentication using modern password hashing.
+* **Discover Artisan Coffee**: Browse multiple coffee shops across the platform.
+* **Interactive Storefronts**: Explore dynamic menus with custom shop banners, logos, and product images.
+* **Shopping Cart**: Add to cart, update quantities, and place orders smoothly.
+* **Order Tracking**: View detailed order history in a dedicated customer dashboard.
+* **Responsive Design**: Full mobile-first experience using Bootstrap 5.
 
 ---
 
-## 🏪 Shop Owner Features
-
-* Create & Manage Coffee Shop
-* Customize Storefront Branding
-
-  * Shop Name
-  * Logo
-  * Banner
-  * About Section
-  * Theme Colors
-* Product Management (CRUD)
-* Category Management
-* Order Management Dashboard
-* Customer Data Management
-* Revenue & Order Analytics
+## 🏪 Shop Owner Dashboard (SaaS Features)
+* **Storefront Branding**: Upload custom shop logos and panoramic banners, and configure theme colors.
+* **Shop Settings Management**: Update shop name, description, address, and contact details dynamically.
+* **Product Catalog (CRUD)**: Manage categories and upload delicious product images directly to `public/uploads/`.
+* **Live Order Management**: Track incoming orders and update fulfillment statuses (Pending, Preparing, Ready, Completed).
+* **Revenue Analytics**: Dedicated owner dashboard for tracking shop GMV and order volume.
 
 ---
 
-## 🛡 Super Admin Features
-
-* Manage All Shops
-* View Platform Statistics
-* Manage Users
-* Delete/Ban Shops
-* Monitor Orders & Revenue
+## 🛡️ Super Admin Control Panel
+* **Platform Overview**: Dynamic, real-time statistics tracking total platform GMV, total shops, users, and orders.
+* **Manage Platform Users**: Full visibility of all registered customers, owners, and their join dates.
+* **Manage Shops**: Centralized view of all created coffee storefronts and their respective owners.
+* **Action Controls**: Ban or suspend problematic shops directly from the dashboard.
 
 ---
 
-# 🎨 UI/UX Highlights
+# 🎨 UI/UX & Design Architecture
 
-* Premium Coffee-Themed Design
-* Modern Dashboard Layout
-* Responsive UI
-* Elegant Product Cards
-* Smooth Cart Drawer
-* Clean Admin Panels
-* Warm Coffee Color Palette
-* SaaS-style User Experience
+* **Premium Coffee-Themed Design**: Rich beige/cream backgrounds (`bg-cream`) accented with deep coffee primary colors (`var(--primary)`).
+* **Cinematic Banners**: Panoramic shop banners with gradient overlays for maximum text legibility.
+* **Modern Dashboard Layouts**: Clean, offcanvas sidebars for mobile and persistent sidebars for desktop, with unified "Home" navigation.
+* **Responsive Typography**: Implemented `clamp()` typography and Google Fonts (Playfair Display & Inter) for a sleek, premium feel across all devices.
+* **Micro-interactions**: Hover effects, shadow scaling (`shadow-sm` to `shadow`), and glassmorphism elements.
 
 ---
 
 # 🛠 Tech Stack
 
 ## Frontend
-
-* HTML5
-* CSS3
+* HTML5 & CSS3 (Custom `style.css` utilizing CSS Variables)
 * JavaScript
-* Bootstrap / TailwindCSS
+* **Bootstrap 5.3** (Grid system, Offcanvas sidebars, Modals, Utilities)
+* FontAwesome 5 (Icons)
 
 ## Backend
-
-* PHP (OOP + MVC Architecture)
+* PHP (OOP + Custom MVC Architecture)
+* Secure File Upload Handling (`move_uploaded_file`)
+* Dynamic Session Routing (`$_SESSION['role']`)
 
 ## Database
-
-* MySQL
+* MySQL (Relational schema with strict `ENUM` constraints for roles and statuses)
+* PDO (PHP Data Objects) for Prepared Statements
 
 ---
 
@@ -86,157 +69,79 @@ It allows local café owners to create and manage their own customizable online 
 brewcraft/
 │
 ├── app/
-│   ├── controllers/
-│   ├── models/
-│   ├── views/
+│   ├── controllers/      # MVC Controllers (Auth, Shop, Admin, Customer)
+│   ├── models/           # Database Models
+│   ├── views/            # UI Templates (Organized by role: admin, customer, home, shop, superadmin)
+│       └── layouts/      # Unified header, footer, and sidebar layouts
 │
-├── config/
-├── database/
-├── public/
-├── uploads/
-├── routes/
+├── config/               # Database configuration
+├── database/             # SQL schema and dummy data imports
+├── public/               
+│   ├── css/              # Custom stylesheets
+│   └── uploads/          # Dynamically generated user uploads (shops/ & products/)
+├── routes/               # Custom web.php routing logic
 └── README.md
 ```
 
 ---
 
-# 🗄 Database Tables
-
-The project uses relational MySQL tables:
-
-* users
-* shops
-* categories
-* products
-* orders
-* order_items
-* reviews
-
----
-
 # 🔐 Authentication & Security
 
-* Role-Based Authentication
-* Session Management
-* Password Hashing using `password_hash()`
-* Prepared Statements using PDO
-* Protected Admin Routes
+* **Role-Based Authentication**: Strict routing ensuring `customer`, `owner`, and `admin` users only access their designated dashboards.
+* **Protected Admin Routes**: `checkAuth()` middleware implemented across all protected controllers.
+* **Secure Image Uploads**: Unique ID generation for uploaded filenames to prevent collisions and malicious file overrides.
+* **Session Management**: Secure session lifecycle handling.
+* **Password Hashing**: Utilizes PHP's native `password_hash()` and `password_verify()`.
+* **SQL Injection Prevention**: 100% Prepared Statements using PDO.
 
 ---
 
-# 🚀 Installation
+# 🚀 Installation & Setup
 
 ## 1. Clone Repository
-
 ```bash
-git clone https://github.com/your-username/brewcraft.git
+git clone https://github.com/Gobu105/BrewCraft.git
 ```
 
----
-
-## 2. Move Project to XAMPP
-
-Move the project folder to:
-
+## 2. Environment Setup
+Move the project folder to your local server directory:
 ```bash
-xampp/htdocs/
+# For XAMPP
+C:/xampp/htdocs/BrewCraft
 ```
 
----
+## 3. Database Configuration
+* Open **phpMyAdmin**.
+* Create a new database named `coffeeshop`.
+* Import the SQL schema file located at:
+  ```bash
+  database/coffee_shop_db.sql
+  ```
+* *(Optional)* To populate the platform with sample shops, products, and images, import the dummy data script:
+  ```bash
+  database/pune_dummy_data.sql
+  ```
 
-## 3. Import Database
-
-* Open phpMyAdmin
-* Create database:
-
-```sql
-brewcraft_db
-```
-
-* Import the SQL file from:
-
-```bash
-database/brewcraft_db.sql
-```
-
----
-
-## 4. Configure Database
-
-Update database credentials inside:
-
-```bash
-config/database.php
-```
-
-Example:
-
+## 4. Connect Database
+Update database credentials inside `config/database.php`:
 ```php
 <?php
-
 $host = "localhost";
-$dbname = "brewcraft_db";
+$dbname = "coffeeshop";
 $username = "root";
 $password = "";
 ```
 
----
-
-## 5. Run Project
-
-Start:
-
-* Apache
-* MySQL
-
-Then open:
-
+## 5. Launch Project
+Start Apache and MySQL on your local server environment, then navigate to:
 ```bash
-http://localhost/brewcraft
+http://localhost/BrewCraft
 ```
 
 ---
 
-# 📸 Screenshots
-
-## Customer Storefront
-
-* Product Listing
-* Cart Drawer
-* Coffee Categories
-
-## Admin Dashboard
-
-* Revenue Analytics
-* Product Management
-* Orders Panel
-
----
-
-# 🎯 Future Improvements
-
-* Online Payments (Razorpay / Stripe)
-* Email Notifications
-* Live Order Tracking
-* Table Reservation System
-* Multi-language Support
-* Dark Mode
-* REST API Support
-
----
-
-# 💡 Project Goal
-
-BrewCraft aims to provide local coffee shops with a professional digital storefront and management system while delivering customers a smooth online coffee ordering experience.
-
----
-
 # 👨‍💻 Author
-
-Developed by Jatin Joshi
-
----
+Developed by **Jatin Joshi**
 
 # 📄 License
-
 This project is for educational and portfolio purposes.

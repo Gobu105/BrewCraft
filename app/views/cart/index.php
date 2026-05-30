@@ -17,7 +17,7 @@
             </div>
             <div class="flex-grow-1">
                 <h6 class="fw-bold mb-1 text-dark"><?php echo htmlspecialchars($item['product']['name']); ?></h6>
-                <span class="text-muted small">$<?php echo number_format($item['product']['price'], 2); ?></span>
+                <span class="text-muted small">₹<?php echo number_format($item['product']['price'], 2); ?></span>
             </div>
             <div class="d-flex align-items-center ms-3">
                 <button class="btn btn-sm btn-light border text-dark" style="width: 32px; height: 32px; padding: 0;" onclick="updateCart(<?php echo $id; ?>, -1)">-</button>
@@ -31,7 +31,7 @@
     <div class="border-top p-4 mt-auto" style="background-color: var(--bg-cream);">
         <div class="d-flex justify-content-between mb-4">
             <span class="fw-bold fs-5 text-dark">Total</span>
-            <span class="fw-bold text-dark fs-5">$<?php echo number_format($total, 2); ?></span>
+            <span class="fw-bold text-dark fs-5">₹<?php echo number_format($total, 2); ?></span>
         </div>
         
         <?php if(!isset($_SESSION['user_id'])): ?>

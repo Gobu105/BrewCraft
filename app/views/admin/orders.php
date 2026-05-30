@@ -19,8 +19,11 @@
                 <?php foreach($orders as $o): ?>
                 <tr class="border-bottom">
                     <td class="fw-bold">#<?php echo str_pad($o['id'], 5, '0', STR_PAD_LEFT); ?></td>
-                    <td><?php echo htmlspecialchars($o['customer_name']); ?></td>
-                    <td class="fw-bold">$<?php echo number_format($o['total_price'], 2); ?></td>
+                    <td>
+                        <div class="fw-medium"><?php echo htmlspecialchars($o['customer_name']); ?></div>
+                        <div class="text-muted small"><i class="fa fa-map-marker-alt me-1"></i><?php echo htmlspecialchars($o['customer_address'] ?? 'No Address provided'); ?></div>
+                    </td>
+                    <td class="fw-bold text-dark">₹<?php echo number_format($o['total_price'], 2); ?></td>
                     <td>
                         <?php 
                         $badgeClass = 'bg-secondary';

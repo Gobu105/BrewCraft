@@ -65,4 +65,25 @@ class SuperAdminController {
         
         require_once __DIR__ . '/../views/layouts/super_admin.php';
     }
+
+    public function banShop() {
+        $this->checkAuth();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['shop_id'])) {
+            $db = (new Database())->getConnection();
+            
+            // Delete products first to avoid foreign key constraints (if any exist)
+            $stmt = $db->prepare("DELETE FROM products WHERE shop_id = ?");
+            $stmt->execute([$_POST['shop_id']]);
+            
+            // Delete categories
+            $stmt = $db->prepare("DELETE FROM categories WHERE shop_id = ?");
+            $stmt->execute([$_POST['shop_id']]);
+            
+            // Delete the shop
+            $stmt = $db->prepare("DELETE FROM shops WHERE id = ?");
+            $stmt->execute([$_POST['shop_id']]);
+        }
+        header("Location: " . BASE_URL . "/admin/shops");
+        exit;
+    }
 }

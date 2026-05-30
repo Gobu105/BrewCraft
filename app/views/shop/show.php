@@ -50,12 +50,12 @@
                         <?php foreach($products_by_category[$cat['id']] as $prod): ?>
                         <div class="col-md-6">
                             <div class="card product-card h-100 p-3 flex-row align-items-center">
-                                <div class="bg-light rounded me-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
-                                    <i class="fa fa-image text-muted opacity-50"></i>
+                                <div class="bg-light rounded me-3 d-flex align-items-center justify-content-center overflow-hidden" style="width: 80px; height: 80px; min-width: 80px;">
+                                    <img src="<?php echo BASE_URL; ?>/public/uploads/products/<?php echo htmlspecialchars($prod['image'] ?? 'default_product.jpg'); ?>" class="w-100 h-100" style="object-fit: cover;" onerror="this.src='<?php echo BASE_URL; ?>/public/uploads/shops/default_logo.png'">
                                 </div>
                                 <div class="flex-grow-1">
                                     <h5 class="fw-bold mb-1"><?php echo htmlspecialchars($prod['name']); ?></h5>
-                                    <p class="text-primary fw-bold mb-0">$<?php echo number_format($prod['price'], 2); ?></p>
+                                    <p class="text-primary fw-bold mb-0">₹<?php echo number_format($prod['price'], 2); ?></p>
                                 </div>
                                 <button class="btn btn-outline-primary rounded-circle p-2 ms-2" onclick="addToCart(<?php echo $prod['id']; ?>)">
                                     <i class="fa fa-plus"></i>
