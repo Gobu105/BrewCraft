@@ -1,0 +1,31 @@
+<?php
+
+// Define application routes
+$routes = [
+    '/' => 'HomeController@index',
+    '/shops' => 'ShopController@index',
+    '/shop' => 'ShopController@show',
+    '/login' => 'AuthController@login',
+    '/menu' => 'MenuController@index',
+    '/install' => 'InstallController@index',
+    '/admin/dashboard' => 'ShopAdminController@index',
+    '/owner' => 'ShopAdminController@index',
+    '/owner/orders' => 'ShopAdminController@orders',
+    '/owner/products' => 'ShopAdminController@products',
+    '/owner/categories' => 'ShopAdminController@categories',
+    '/cart' => 'CartController@index',
+    '/checkout' => 'CartController@checkout',
+    '/addToCart' => 'CartController@add',
+    '/updateCart' => 'CartController@update',
+    '/removeCart' => 'CartController@remove',
+    '/register' => 'AuthController@register',
+    '/logout' => 'AuthController@logout',
+    '/about' => 'PageController@about',
+    '/service' => 'PageController@service',
+    '/admin' => 'SuperAdminController@index',
+    '/admin/users' => 'SuperAdminController@users',
+    '/admin/shops' => 'SuperAdminController@shops',
+    '/customer' => 'CustomerController@index',
+    '/customer/orders' => 'CustomerController@orders',
+    '/customer/settings' => 'CustomerController@settings',
+];
