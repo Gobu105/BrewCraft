@@ -144,6 +144,44 @@ http://localhost/BrewCraft
 
 ---
 
+# 🎯 Demo Credentials
+
+You can explore BrewCraft using the following demo accounts:
+
+## 🛡️ Super Admin
+
+Manage the entire marketplace, monitor all users, shops, orders, and platform analytics.
+
+**Email:** [admin@brewcraft.com](mailto:admin@brewcraft.com)
+**Password:** password123
+
+---
+
+## 🏪 Shop Owner
+
+Access a vendor dashboard (FC Road Cafe), manage products, process orders, and track revenue.
+
+**Email:** [rahul@fcroad.com](mailto:rahul@fcroad.com)
+**Password:** password123
+
+---
+
+## 👤 Customer Experience
+
+For the best customer experience, create a new account directly on the platform.
+
+### Suggested Testing Flow
+
+1. Register a new customer account.
+2. Go to **Settings** and add your default delivery address.
+3. Browse available coffee shops.
+4. Add a coffee and a pastry to your cart.
+5. Proceed to checkout and place an order.
+6. Log in as the Shop Owner (**[rahul@fcroad.com](mailto:rahul@fcroad.com)**) to see the order appear in the dashboard and update its status.
+
+This demonstrates the complete customer-to-owner order workflow within BrewCraft.
+
+
 # 👨‍💻 Author
 Developed by **Jatin Joshi**
 
