@@ -2,12 +2,14 @@
 
 <!-- Shop Banner -->
 <div class="container-fluid p-0 mb-5">
-    <div class="bg-dark text-white d-flex align-items-end" style="height: 300px; background-color: var(--primary) !important;">
-        <div class="container pb-4">
+    <div class="bg-dark text-white d-flex align-items-end" style="height: 300px; background-color: <?php echo htmlspecialchars($shop['theme_color'] ?? 'var(--primary)'); ?> !important; background-image: url('<?php echo BASE_URL; ?>/public/uploads/shops/<?php echo htmlspecialchars($shop['banner'] ?? 'default_banner.jpg'); ?>'); background-size: cover; background-position: center; position: relative;">
+        <!-- Dark overlay to ensure text is readable against any image -->
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 100%);"></div>
+        <div class="container pb-4" style="position: relative; z-index: 1;">
             <div class="d-flex align-items-center">
                 <div class="bg-white rounded p-2 me-4 shadow" style="width: 120px; height: 120px; transform: translateY(30px);">
-                    <div class="w-100 h-100 bg-light d-flex align-items-center justify-content-center text-muted border border-dashed rounded">
-                        <i class="fa fa-coffee fa-3x"></i>
+                    <div class="w-100 h-100 bg-light d-flex align-items-center justify-content-center text-muted border border-dashed rounded overflow-hidden">
+                        <img src="<?php echo BASE_URL; ?>/public/uploads/shops/<?php echo htmlspecialchars($shop['logo'] ?? 'default_logo.png'); ?>" class="w-100 h-100" style="object-fit: cover;">
                     </div>
                 </div>
                 <div>

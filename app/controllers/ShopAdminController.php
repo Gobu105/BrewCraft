@@ -3,7 +3,7 @@
 class ShopAdminController {
     
     private function checkAuth() {
-        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'owner') {
+        if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['owner', 'shop_owner'])) {
             header("Location: " . BASE_URL . "/login");
             exit();
         }
@@ -134,6 +134,56 @@ class ShopAdminController {
         
         ob_start();
         require_once __DIR__ . '/../views/admin/orders.php';
+        $content = ob_get_clean();
+        require_once __DIR__ . '/../views/layouts/admin.php';
+    }
+
+    public function settings() {
+        $this->checkAuth();
+        $db = (new Database())->getConnection();
+        $shop_id = $this->getShopId($db);
+        
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = $_POST['name'] ?? '';
+            $description = $_POST['description'] ?? '';
+            $address = $_POST['address'] ?? '';
+            $phone = $_POST['phone'] ?? '';
+            $theme_color = $_POST['theme_color'] ?? '#4a3320';
+            
+            // Handle logo upload
+            $logo = $_POST['current_logo'] ?? 'default_logo.png';
+            if (isset($_FILES['logo']) && $_FILES['logo']['error'] == 0) {
+                $upload_dir = __DIR__ . '/../../public/uploads/shops/';
+                if(!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
+                $ext = pathinfo($_FILES['logo']['name'], PATHINFO_EXTENSION);
+                $logo = 'logo_' . uniqid() . '.' . $ext;
+                move_uploaded_file($_FILES['logo']['tmp_name'], $upload_dir . $logo);
+            }
+            
+            // Handle banner upload
+            $banner = $_POST['current_banner'] ?? 'default_banner.jpg';
+            if (isset($_FILES['banner']) && $_FILES['banner']['error'] == 0) {
+                $upload_dir = __DIR__ . '/../../public/uploads/shops/';
+                if(!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
+                $ext = pathinfo($_FILES['banner']['name'], PATHINFO_EXTENSION);
+                $banner = 'banner_' . uniqid() . '.' . $ext;
+                move_uploaded_file($_FILES['banner']['tmp_name'], $upload_dir . $banner);
+            }
+            
+            $stmt = $db->prepare("UPDATE shops SET name=?, description=?, address=?, phone=?, theme_color=?, logo=?, banner=? WHERE id=?");
+            $stmt->execute([$name, $description, $address, $phone, $theme_color, $logo, $banner, $shop_id]);
+            
+            $_SESSION['success_msg'] = "Shop settings updated successfully!";
+            header("Location: " . BASE_URL . "/owner/settings");
+            exit;
+        }
+        
+        $stmt = $db->prepare("SELECT * FROM shops WHERE id = ?");
+        $stmt->execute([$shop_id]);
+        $shop = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        ob_start();
+        require_once __DIR__ . '/../views/admin/settings.php';
         $content = ob_get_clean();
         require_once __DIR__ . '/../views/layouts/admin.php';
     }

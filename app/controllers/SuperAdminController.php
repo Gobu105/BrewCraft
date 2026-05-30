@@ -11,13 +11,21 @@ class SuperAdminController {
     
     public function index() {
         $this->checkAuth();
+        $db = (new Database())->getConnection();
         
-        $stats = [
-            'shops' => 1,
-            'users' => 3,
-            'orders' => 0,
-            'gmv' => 0
-        ];
+        $stats = ['shops' => 0, 'users' => 0, 'orders' => 0, 'gmv' => 0];
+        
+        $stmt = $db->query("SELECT COUNT(*) FROM shops");
+        $stats['shops'] = $stmt->fetchColumn();
+        
+        $stmt = $db->query("SELECT COUNT(*) FROM users");
+        $stats['users'] = $stmt->fetchColumn();
+        
+        $stmt = $db->query("SELECT COUNT(*) FROM orders");
+        $stats['orders'] = $stmt->fetchColumn();
+        
+        $stmt = $db->query("SELECT SUM(total_price) FROM orders WHERE status = 'completed'");
+        $stats['gmv'] = $stmt->fetchColumn() ?: 0;
         
         ob_start();
         require_once __DIR__ . '/../views/superadmin/dashboard.php';
@@ -28,12 +36,10 @@ class SuperAdminController {
 
     public function users() {
         $this->checkAuth();
+        $db = (new Database())->getConnection();
         
-        $users = [
-            ['id' => 1, 'name' => 'Super Admin', 'email' => 'admin@brewcraft.com', 'role' => 'Admin', 'created_at' => 'May 27, 2026'],
-            ['id' => 2, 'name' => 'Maya Chen', 'email' => 'owner@brewcraft.com', 'role' => 'Owner', 'created_at' => 'May 27, 2026'],
-            ['id' => 3, 'name' => 'Alex Rivera', 'email' => 'customer@brewcraft.com', 'role' => 'Customer', 'created_at' => 'May 27, 2026']
-        ];
+        $stmt = $db->query("SELECT * FROM users ORDER BY created_at DESC");
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
         ob_start();
         require_once __DIR__ . '/../views/superadmin/users.php';
@@ -44,10 +50,14 @@ class SuperAdminController {
 
     public function shops() {
         $this->checkAuth();
+        $db = (new Database())->getConnection();
         
-        $shops = [
-            ['id' => 1, 'name' => 'Sightglass Coffee', 'owner' => 'Maya Chen', 'created_at' => 'May 27, 2026', 'status' => 'Active']
-        ];
+        $stmt = $db->query("SELECT s.*, u.name as owner FROM shops s JOIN users u ON s.owner_id = u.id ORDER BY s.created_at DESC");
+        $shops = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        foreach($shops as &$s) {
+            $s['status'] = 'Active';
+        }
         
         ob_start();
         require_once __DIR__ . '/../views/superadmin/shops.php';

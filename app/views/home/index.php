@@ -34,8 +34,8 @@
         <?php foreach ($featuredShops as $shop): ?>
         <div class="col-lg-4 col-md-6">
             <div class="card shop-card h-100">
-                <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
-                    <i class="fa fa-coffee fa-4x text-muted opacity-25"></i>
+                <div class="bg-light d-flex align-items-center justify-content-center overflow-hidden" style="height: 200px;">
+                    <img src="<?php echo BASE_URL; ?>/public/uploads/shops/<?php echo htmlspecialchars($shop['banner'] ?? 'default_banner.jpg'); ?>" class="w-100 h-100" style="object-fit: cover;">
                 </div>
                 <div class="card-body p-4">
                     <h4 class="fw-bold mb-1"><?php echo htmlspecialchars($shop['name']); ?></h4>

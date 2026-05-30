@@ -19,14 +19,14 @@
         <div class="col-md-4">
             <div class="card h-100 border-0 shadow-sm" style="border-radius: 12px; overflow: hidden; background-color: var(--white);">
                 <!-- Shop Image Placeholder -->
-                <div class="bg-beige d-flex align-items-center justify-content-center" style="height: 200px; background-color: #f3efe6;">
-                    <i class="fa fa-coffee fa-3x text-muted opacity-25"></i>
+                <div class="bg-beige d-flex align-items-center justify-content-center overflow-hidden" style="height: 200px; background-color: #f3efe6;">
+                    <img src="<?php echo BASE_URL; ?>/public/uploads/shops/<?php echo htmlspecialchars($shop['banner'] ?? 'default_banner.jpg'); ?>" class="w-100 h-100" style="object-fit: cover;">
                 </div>
                 
                 <!-- Shop Details -->
                 <div class="card-body p-4">
                     <h5 class="fw-bold mb-3 d-flex align-items-center text-primary" style="font-family: 'Playfair Display', serif;">
-                        <i class="fa fa-coffee me-2 text-muted" style="font-size: 1rem;"></i>
+                        <img src="<?php echo BASE_URL; ?>/public/uploads/shops/<?php echo htmlspecialchars($shop['logo'] ?? 'default_logo.png'); ?>" class="rounded-circle me-2 shadow-sm" style="width: 28px; height: 28px; object-fit: cover;">
                         <?php echo htmlspecialchars($shop['name']); ?>
                     </h5>
                     

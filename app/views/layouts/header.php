@@ -42,8 +42,8 @@
                     <?php if (isset($_SESSION['name'])): ?>
                         <?php 
                             $dashRoute = '/customer';
-                            if($_SESSION['role'] === 'admin') $dashRoute = '/admin';
-                            else if($_SESSION['role'] === 'owner') $dashRoute = '/owner';
+                            if($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'super_admin') $dashRoute = '/admin';
+                            else if(in_array($_SESSION['role'], ['owner', 'shop_owner'])) $dashRoute = '/owner';
                         ?>
                         <a href="<?php echo BASE_URL . $dashRoute; ?>" class="nav-item nav-link fw-bold text-dark">Dashboard</a>
                         <a href="<?php echo BASE_URL; ?>/logout" class="btn btn-outline-primary ms-3 rounded-pill px-4">Sign out</a>

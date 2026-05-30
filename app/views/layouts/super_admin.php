@@ -23,9 +23,10 @@
                 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
                 $uri = str_replace(BASE_URL, '', $uri);
             ?>
-            <a href="<?php echo BASE_URL; ?>/admin" class="nav-link text-dark <?php echo ($uri == '/admin') ? 'active' : ''; ?>"><i class="fa fa-chart-bar fa-fw me-2"></i> Dashboard</a>
+            <a href="<?php echo BASE_URL; ?>/" class="nav-link text-dark"><i class="fa fa-home fa-fw me-2"></i> Home</a>
+            <a href="<?php echo BASE_URL; ?>/admin" class="nav-link text-dark <?php echo ($uri == '/admin' || $uri == '/admin/dashboard') ? 'active' : ''; ?>"><i class="fa fa-chart-line fa-fw me-2"></i> Dashboard</a>
             <a href="<?php echo BASE_URL; ?>/admin/shops" class="nav-link text-dark <?php echo strpos($uri, 'shops') !== false ? 'active' : ''; ?>"><i class="fa fa-store fa-fw me-2"></i> Manage Shops</a>
-            <a href="<?php echo BASE_URL; ?>/admin/users" class="nav-link text-dark <?php echo strpos($uri, 'users') !== false ? 'active' : ''; ?>"><i class="fa fa-users fa-fw me-2"></i> Manage Users</a>
+            <a href="<?php echo BASE_URL; ?>/admin/users" class="nav-link text-dark <?php echo strpos($uri, 'users') !== false ? 'active' : ''; ?>"><i class="fa fa-users fa-fw me-2"></i> Platform Users</a>
         </div>
         <div class="p-4 mt-auto">
             <a href="<?php echo BASE_URL; ?>/logout" class="text-danger text-decoration-none fw-medium"><i class="fa fa-sign-out-alt fa-fw me-2"></i> Sign Out</a>

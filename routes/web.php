@@ -13,6 +13,7 @@ $routes = [
     '/owner/orders' => 'ShopAdminController@orders',
     '/owner/products' => 'ShopAdminController@products',
     '/owner/categories' => 'ShopAdminController@categories',
+    '/owner/settings' => 'ShopAdminController@settings',
     '/cart' => 'CartController@index',
     '/checkout' => 'CartController@checkout',
     '/addToCart' => 'CartController@add',

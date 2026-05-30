@@ -27,7 +27,7 @@
             <a href="<?php echo BASE_URL; ?>/customer/orders" class="nav-link text-dark <?php echo strpos($uri, 'orders') !== false ? 'active' : ''; ?>"><i class="fa fa-shopping-bag fa-fw me-2"></i> My Orders</a>
             <a href="<?php echo BASE_URL; ?>/customer/settings" class="nav-link text-dark <?php echo strpos($uri, 'settings') !== false ? 'active' : ''; ?>"><i class="fa fa-cog fa-fw me-2"></i> Settings</a>
         </div>
-        <div class="p-4 mt-auto">
+        <div class="p-4 mt-auto border-top">
             <a href="<?php echo BASE_URL; ?>/logout" class="text-danger text-decoration-none fw-medium"><i class="fa fa-sign-out-alt fa-fw me-2"></i> Sign Out</a>
         </div>
     </div>
